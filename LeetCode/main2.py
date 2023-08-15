@@ -76,4 +76,26 @@ print(f7.addDigits(22))
 f7=Solution7()
 print(f7.addDigits(38))
 
-# Остановка во времени 1:23:24
+# Student Attendance Record
+
+class Sulution8:
+    def checkRecord(self,s:str) -> bool:
+        l_cnt=0
+        a_cnt=0
+        for c in s:
+            if c=="A":
+                a_cnt+=1
+                if a_cnt==2:
+                    return False
+            if c=="L":
+                l_cnt+=1
+                if l_cnt>2:
+                    return False
+            else:
+                l_cnt=0
+        return True
+
+f8=Sulution8()
+print(f8.checkRecord("PPAL"))
+
+
