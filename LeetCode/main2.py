@@ -98,4 +98,3 @@ class Sulution8:
 f8=Sulution8()
 print(f8.checkRecord("PPAL"))
 
-
