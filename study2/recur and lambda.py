@@ -87,3 +87,19 @@ def oclock(timer_forward):
     print("Время вышло")
 
 oclock(380)
+
+
+# Проверка палиндрома с помощью рекурсии
+
+def is_palindrome(s):
+    s = ''.join(s.lower().split())
+    if len(s) <= 1:
+        return True
+    elif s[0] != s[-1]:
+        return False
+    else:
+        return is_palindrome(s[1:-1])
+
+print(is_palindrome("racecar"))  # True
+print(is_palindrome("hello"))    # False
+print(is_palindrome("A man a plan a canal Panama"))  # True
