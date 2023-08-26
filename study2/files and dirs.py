@@ -28,8 +28,5 @@
 
 # Контекстный менеджер - файл закрывается сам всегда
 
-with open("z_new.txt", mode="r") as file2:
-    line1=file2.read()
-    print(line1)
-    line2=file2.readlines()
-    print(line2)
+with open("z_new.txt", mode="w") as file2:
+    file2.write("Python is awesome!\n hello")
