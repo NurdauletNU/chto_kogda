@@ -24,7 +24,7 @@ print(os.getcwd())                      # текущая директория
 second=r"C:\chto_kogda"
 third="OOP"
 path=os.path.join(second,third)          # СКЛЕИВАНИЕ ДВУХ ПУТЕЙ
-# print(f"path: {path}")
+print(f"path: {path}")
 
 
 # Работа с файлами и директориями:
@@ -90,3 +90,15 @@ print(os.path.exists("C:\chto_kogda\study2"))    # Проверяет ущест
 # os.getpid(): Возвращает идентификатор текущего процесса.
 # os.getlogin(): Возвращает имя пользователя, вошедшего в систему.
 # os.chmod(path, mode): Изменяет права доступа к файлу.
+
+#with open(r"C:\chto_kogda\study2\file\file.txt", mode="w") as file_txt:
+#    file_txt.write("Hello")
+
+folder_path = 'C:\chto_kogda\OOP'  # Укажите путь к папке
+file_name = 'exam.txt'      # Укажите имя файла
+
+file_path = os.path.join(folder_path, file_name)
+
+# Создаем файл
+with open(file_path, 'w') as file:
+    pass  # Просто создаем пустой файл

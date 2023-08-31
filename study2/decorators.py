@@ -67,14 +67,21 @@ q=val(7.1, 3.25)
 # **kwargs- именнованные аргументы(dict-словарь)
 
 
-def countdown(n):
-    while n > 0:
-        yield n
-        n -= 1
+dict1={"name":"Nurik", "age":30}
+print(*dict1)  # когда * (одна звездочка) распакуется только ключи
 
-# Создаем генератор
-counter = countdown(5)
 
-# Итерируемся по генератору
-for i in counter:
-    print(i)
+
+def ex1(age,name):
+    print("name", name)
+    print("age",age)
+ex1(**dict1)
+
+
+def res2():
+    return 2,25,30
+
+c,d,e=res2()            #  autounpacking
+print(c,d,e)
+
+
