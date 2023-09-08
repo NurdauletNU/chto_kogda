@@ -68,13 +68,11 @@ q=val(7.1, 3.25)
 
 
 dict1={"name":"Nurik", "age":30}
-print(*dict1)  # когда * (одна звездочка) распакуется только ключи
-
-
+print(*dict1)  # когда * (одна звездочка) распакуется только ключи  |  name age
 
 def ex1(age,name):
-    print("name", name)
-    print("age",age)
+    print("name", name)          # name Nurik
+    print("age",age)             # age  30
 ex1(**dict1)
 
 
