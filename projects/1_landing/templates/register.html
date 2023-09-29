@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+</head>
+<body>
+
+    {% if result %}
+    <div class="btn btn-success">Вы успешно зарегистрировались!</div>
+    {% endif %}
+
+
+    <form action="http://127.0.0.1:5000/register" target="_self" method="POST" enctype="multipart/form-data">
+
+    <div class="container">
+                <div class="row g-3">
+                  <div class="col-sm-6">
+                    <label for="firstName" class="form-label">Имя</label>
+                    <input name="firstName" type="text" class="form-control" id="firstName" placeholder="" value="" required="">
+                    <div class="invalid-feedback">
+                      Valid first name is required.
+                    </div>
+                  </div>
+      
+                  <div class="col-sm-6">
+                    <label for="lastName" class="form-label">Фамилия</label>
+                    <input name="lastName" type="text" class="form-control" id="lastName" placeholder="" value="" required="">
+                    <div class="invalid-feedback">
+                      Valid last name is required.
+                    </div>
+                  </div>
+
+                  <div class="row g-3">
+                    <div class="col-12">
+                      <label for="iin" class="form-label">ИИН</label>
+                      <div class="input-group has-validation">
+                        <span class="input-group-text">#</span>
+                        <input name="iin" type="text" class="form-control" id="iin" placeholder="" required="">
+                      </div>
+                    </div>
+                  </div>
+
+
+                  <div class="col-md-4">
+                    <label for="gender" class="form-label">Укажите ваш пол</label>
+                    <select name="gender" class="form-select" id="state" required="">
+                      <option value="">Выберите...</option>
+                      <option>МУЖ</option>
+                      <option>ЖЕН</option>
+                    </select>
+                    <div class="invalid-feedback">
+                      
+                    </div>
+                  </div>
+
+                  <div class="col-sm-6">
+                    <label for="position" class="form-label">Какие вакансии вы рассматриваете?</label>
+                    <input name="position" type="text" class="form-control" id="position" placeholder="курьер" value="" required="">
+                    <div class="invalid-feedback">
+                      Valid position is required.
+                    </div>
+                  </div>
+
+
+
+
+      
+      
+                  <div class="col-12">
+                    <label for="email" class="form-label">Электронный адрес <span class="text-body-secondary">(Выборочно)</span></label>
+                    <input name="email" type="email" class="form-control" id="email" placeholder="you@example.com">
+                    <div class="invalid-feedback">
+                      Пожалуйста, введите корретные данные
+                    </div>
+                  </div>
+      
+                  <div class="col-12">
+                    <label for="address" class="form-label">Адрес</label>
+                    <input name="address" type="text" class="form-control" id="address" placeholder="ул. Орлова 105" required="">
+                    <div class="invalid-feedback">
+                        Пожалуйста, введите корретные данные
+                    </div>
+                  </div>
+      
+      
+                  <div class="col-md-5">
+                    <label for="education" class="form-label">Образования</label>
+                    <select name="education" class="form-select" id="education" required="">
+                      <option value="">Выберите...</option>
+                      <option>Среднее профессиональное</option>
+                      <option>Бакалавр</option>
+                      <option>Магистр</option>
+                      <option>Асперант</option>
+                    </select>
+                    <div class="invalid-feedback">
+                    Пожалуйста, введите корректные данные!
+                    </div>
+                  </div>
+      
+                  <div class="col-md-4">
+                    <label for="age" class="form-label">Укажите ваш диапазон возраста</label>
+                    <select name="age" class="form-select" id="age" required="">
+                      <option value="">Выберите...</option>
+                      <option>18-25</option>
+                      <option>26-34</option>
+                      <option>35-43</option>
+                      <option>44-60</option>
+                    </select>
+                    <div class="invalid-feedback">
+                      
+                    </div>
+                  </div>
+      
+                  
+      
+                <hr class="my-4">
+      
+            
+                <hr>
+                <button class=" btn btn-primary " type="submit">Зарегистрироваться</button>
+                </hr>
+                </div>
+      
+                <hr class="my-4">
+
+                
+      
+                
+
+
+</form>   
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</body>
+</html>
