@@ -25,3 +25,49 @@
 
 #	Изучить пример всех функций в библиотеке functols.
 
+
+from functools import partial,reduce,lru_cache,wraps
+#functools.partial(func, *args, **keywords)
+def add(x, y):
+    return x + y
+
+add_five = partial(add, 5)
+result = add_five(3)
+print(result)
+
+
+
+# functools.reduce(function, iterable[, initializer])
+numbers = [1, 2, 3, 4]
+product = reduce(lambda x, y: x * y, numbers)
+print(product)
+
+
+
+
+# functools.lru_cache(maxsize=128, typed=False)
+@lru_cache(maxsize=128)
+def fib(n):
+    if n < 2:
+        return n
+    return fib(n - 1) + fib(n - 2)
+print(fib(12))
+
+
+
+
+
+#functools.wraps(wrapped, assigned=WRAPPER_ASSIGNMENTS, updated=WRAPPER_UPDATES)
+def my_decorator(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        # Реализация декоратора
+        return func(*args, **kwargs)
+    return wrapper
+
+@my_decorator
+def say_hello(name):
+    """Это документация функции say_hello."""
+    print(f"Привет, {name}!")
+
+say_hello("Alice")
