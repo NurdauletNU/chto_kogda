@@ -11,7 +11,7 @@ def sum(a,b):
     return a+b
 
 res=sum(a=7,b=1)
-# print(res)
+print(res)
 
 
 
