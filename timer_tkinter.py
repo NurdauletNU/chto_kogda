@@ -12,6 +12,8 @@ def start():
     thread.start()
 
 
+
+
 def timer():
     global seconds
     global minutes
