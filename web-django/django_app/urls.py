@@ -10,4 +10,5 @@ urlpatterns = [
     # домашняя страница
     path("", views.home, name="home"),
     path("letter", views.letter, name="letter"),
+
 ]

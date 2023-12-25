@@ -2,13 +2,27 @@
 views - контроллеры(вью) - т.е. бизнес логика
 """
 
+
 from django.shortcuts import render
 from django_app import utils
+import random
+
+cache: utils.MyCache = utils.MyCache()
+
 
 
 def home(request):
+    key = 'home'
+    data = cache.get(key)
+    if data is None:
+        data: str = f" Nurik {random.randint(1,10000)}"
+        cache.set(key, data)
     # возврат HTML страницы
-    return render(request, "home.html", context={})
+    return render(request, "home.html", context={"name": data})
+
+
+
+
 
 
 def letter(request):
@@ -58,3 +72,7 @@ def database():
     _users = utils.execute_sql(is_many=False, _source="database.db", _query=f"""
      INSERT INTO item (recipient, message)
      VALUES (:recipient,:message);""")
+
+
+
+

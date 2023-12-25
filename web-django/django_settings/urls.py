@@ -10,6 +10,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("", include("django_app.urls")),  # вложение
 
+
     # приложения
     # path("", include('payment.urls')),
     # path("", include('blog.urls')),
