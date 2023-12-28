@@ -1,10 +1,11 @@
+
 """
 views - контроллеры(вью) - т.е. бизнес логика
 """
 
 
 from django.shortcuts import render
-from django_app import utils
+from django_app import utils, models
 import random
 
 cache: utils.MyCache = utils.MyCache()
@@ -72,7 +73,4 @@ def database():
     _users = utils.execute_sql(is_many=False, _source="database.db", _query=f"""
      INSERT INTO item (recipient, message)
      VALUES (:recipient,:message);""")
-
-
-
 
