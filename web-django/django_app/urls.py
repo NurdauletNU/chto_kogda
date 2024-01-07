@@ -9,6 +9,6 @@ urlpatterns = [
     # домашняя страница
     path("", views.home, name="home"),
     path("letter", views.letter, name="letter"),
-
+    path("book/list/", views.book, name="book_list")
 
 ]
