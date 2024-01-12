@@ -226,3 +226,6 @@ def products(request):
     # def paginate(obj:list, selected_page: int=1,limit: int=7):
     #     pass
     return render(request, "products.html", context={"page_obj": page_obj})
+
+
+b = models.Price.objects.create()

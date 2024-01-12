@@ -1,76 +1,169 @@
 from django.db import models
+from django.utils import timezone
 
 
 # Create your models here.
-class Item(models.Model):
+class CategoryItem(models.Model):
     title = models.CharField(
-        verbose_name='Наименование',
+        verbose_name="Наименование",
         db_index=True,
         primary_key=False,
+        unique=True,
+        editable=True,
+        blank=True,
+        null=False,
+        default="",
+        max_length=250,
+    )
+
+    slug = models.SlugField(
+        verbose_name="Ссылка",
+        db_index=True,
+        primary_key=False,
+        unique=True,
+        editable=True,
+        blank=True,
+        null=False,
+        default="",
+        max_length=250,
+    )
+    objects = models.Manager()
+
+    class Meta:
+        app_label = "django_app"
+        ordering = ("-title",)
+        verbose_name = "Категория"
+        verbose_name_plural = "Категории"
+
+    def __str__(self):
+        return f"<CategoryItem {self.title} = {self.slug} />"
+
+
+class Item(models.Model):
+    title = models.CharField(
+        verbose_name="Наименование",
+        db_index=True,
+        primary_key=True,
         unique=False,
         editable=True,
         blank=True,
         null=False,
-        default='',
+        default="",
         max_length=250,
     )
 
     description = models.TextField(
-        verbose_name='Описание',
+        verbose_name="Описание",
         db_index=False,
         primary_key=False,
         unique=False,
         editable=True,
         blank=True,
         null=False,
-        default='',
+        default="",
     )
 
     price = models.PositiveIntegerField(
-        verbose_name='Цена',
+        verbose_name="Цена",
         db_index=False,
         primary_key=False,
         unique=False,
         editable=True,
         blank=True,
         null=False,
-        default='',
+        default="",
     )
 
-    category = models.CharField(
-        verbose_name='Категория',
+    # category = models.CharField(
+    #     verbose_name="Категория",
+    #     db_index=True,  # индексы используются в фильтрации
+    #     primary_key=False,
+    #     unique=False,
+    #     editable=True,
+    #     blank=True,
+    #     null=False,
+    #     default="",
+    #     max_length=100,
+    # )
+
+    category = models.ForeignKey(  # O2M
+        verbose_name="Категория",
         db_index=True,  # индексы используются в фильтрации
         primary_key=False,
         unique=False,
         editable=True,
         blank=True,
         null=False,
-        default='',
+        default="",
         max_length=100,
+        to=CategoryItem,
+        on_delete=models.CASCADE,  # CASCADE - удаление
     )
 
     is_active = models.BooleanField(
-        verbose_name='Активность',
+        verbose_name="Активность",
         null=False,
         default=True,
     )
+    objects = models.Manager()
 
-
-class Meta:
-    app_label = 'django_app'
-    ordering = ('is_active', '-title')
-    verbose_name = 'Товар'
-    verbose_name_plural = 'Товары'
-
-    def __init__(self):
-        self.description = None
-        self.id = None
-        self.title = None
-        self.is_active = None
+    class Meta:
+        app_label = "django_app"
+        ordering = ("is_active", "-title")
+        verbose_name = "Товар"
+        verbose_name_plural = "Товары"
 
     def __str__(self):
         if self.is_active:
-            act = 'активен'
+            act = "активен"
         else:
-            act = 'продано'
-        return f"<Item {self.title}({self.id}) | {act} | {self.description[:30]} />"
+            act = "продано"
+        return f"<Item {self.title} | {act} | {self.description[:30]} />"
+
+
+class Vip(models.Model):
+    article = models.OneToOneField(  # O2O
+        verbose_name="Объявление",
+        db_index=True,  # индексы используются в фильтрации
+        primary_key=False,
+        editable=True,
+        blank=True,
+        null=False,
+        default="",
+        max_length=100,
+        to=Item,
+        on_delete=models.CASCADE,  # CASCADE - удаление
+    )
+    priority = models.IntegerField(
+        verbose_name="Приоритет",
+        db_index=True,
+        primary_key=False,
+        unique=False,
+        editable=True,
+        blank=True,
+        null=False,
+        default=1,
+    )
+
+    expired = models.DateTimeField(
+        verbose_name="дата и время истичения",
+        db_index=True,
+        primary_key=True,
+        unique=False,
+        editable=True,
+        blank=True,
+        null=False,
+        default=timezone.now,
+        max_length=250,
+    )
+
+    objects = models.Manager()
+
+    class Meta:
+        app_label = "django_app"
+        ordering = ("priority", "expired")
+        verbose_name = "Vip объявление"
+        verbose_name_plural = "Vip объявлении"
+
+    def __str__(self):
+        return f"<Vip {self.article} | {self.priority} />"

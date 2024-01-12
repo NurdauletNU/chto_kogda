@@ -6,5 +6,7 @@ class Price(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField
     price = models.PositiveIntegerField
+    objects = models.Manager()
+
 
 
