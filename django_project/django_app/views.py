@@ -104,3 +104,36 @@ def items(request, slug_name: str):
         "item_list.html",
         context={"items": _items},
     )
+
+
+def item(request, item_id: str):
+    _item = models.Item.objects.get(id=int(item_id))
+    return render(request, "item_detail.html", context={"item": _item})
+
+
+from django.shortcuts import render, get_object_or_404
+from .models import Product
+
+
+def product_detail(request, pk):
+    product = get_object_or_404(Product, pk=pk)
+    comments = product.comments.all()
+    new_comment = None
+
+    if request.method == "POST":
+        author = request.POST.get("author")
+        text = request.POST.get("text")
+
+        if author and text:
+            new_comment = Comment(author=author, text=text, product=product)
+            new_comment.save()
+
+    return render(
+        request,
+        "product_detail.html",
+        {
+            "product": product,
+            "comments": comments,
+            "new_comment": new_comment,
+        },
+    )

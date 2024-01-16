@@ -4,6 +4,7 @@ from django.utils import timezone
 
 # Create your models here.
 class CategoryItem(models.Model):
+    id = models.AutoField(primary_key=True)
     title = models.CharField(
         verbose_name="Наименование",
         db_index=True,
@@ -40,6 +41,7 @@ class CategoryItem(models.Model):
 
 
 class Item(models.Model):
+    id = models.AutoField
     title = models.CharField(
         verbose_name="Наименование",
         db_index=True,
@@ -122,6 +124,7 @@ class Item(models.Model):
 
 
 class Vip(models.Model):
+    id = models.AutoField
     article = models.OneToOneField(  # O2O
         verbose_name="Объявление",
         db_index=True,  # индексы используются в фильтрации
@@ -167,3 +170,15 @@ class Vip(models.Model):
 
     def __str__(self):
         return f"<Vip {self.article} | {self.priority} />"
+
+
+class Product(models.Model):
+    title = models.CharField(max_length=255)
+    description = models.TextField()
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    category = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.title
+
+    objects = models.Manager()

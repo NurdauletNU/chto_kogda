@@ -6,3 +6,4 @@ from django_app import models
 admin.site.register(models.Item)
 admin.site.register(models.CategoryItem)
 admin.site.register(models.Vip)
+admin.site.register(models.Product)

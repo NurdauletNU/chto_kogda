@@ -1,0 +1,39 @@
+{% extends 'components/base.html' %}
+
+{% block main %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ product.title }} - Детали товара</title>
+</head>
+<body>
+    <h1>{{ product.title }}</h1>
+    <p>{{ product.description }}</p>
+    <p>Цена: {{ product.price }}</p>
+    <p>Категория: {{ product.category }}</p>
+
+    <h2>Комментарии:</h2>
+    <ul>
+        {% for comment in comments %}
+            <li>{{ comment.author }}: {{ comment.text }}</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Добавить комментарий:</h2>
+    <form method="post" action="{% url 'product_detail' pk=product.pk %}">
+        {% csrf_token %}
+        <label for="author">Имя автора:</label>
+        <input type="text" name="author" required>
+
+        <label for="text">Текст комментария:</label>
+        <textarea name="text" required></textarea>
+
+        <button type="submit">Отправить комментарий</button>
+    </form>
+</body>
+</html>
+
+
+
+{% endblock main %}
