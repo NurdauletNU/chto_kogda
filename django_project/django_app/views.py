@@ -1,6 +1,7 @@
 import datetime
 
 from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
@@ -136,4 +137,18 @@ def product_detail(request, pk):
             "comments": comments,
             "new_comment": new_comment,
         },
+    )
+
+
+def chat(request):
+    _rooms = models.Room.objects.all()
+    return render(request, "ChatPage.html", context={"rooms": _rooms})
+
+
+@login_required
+def room(request, room_slug: str):
+    _room = models.Room.objects.get(slug=room_slug)
+    _messages = models.Message.objects.filter(room=_room)[:30]
+    return render(
+        request, "RoomPage.html", context={"room": _room, "messages": _messages}
     )

@@ -13,4 +13,11 @@ urlpatterns = [
     path("search/", views.search, name="search"),
     path("item/<str:item_id>/", views.item, name="item"),
     path("product/<int:pk>/", views.product_detail, name="product_detail"),
+    path("chat", views.chat, name="chat"),
+    path("chat/<slug:room_slug>/", views.room, name="room"),
+]
+from django_app import views_a
+
+websocket_urlpatterns = [
+    path("ws/chat/<slug:room_name>/", views_a.ChatConsumer.as_asgi())
 ]
