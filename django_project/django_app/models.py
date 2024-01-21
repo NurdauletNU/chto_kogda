@@ -43,6 +43,20 @@ class CategoryItem(models.Model):
 
 
 class Item(models.Model):
+    author = models.ForeignKey(
+        verbose_name="Автор",
+        db_index=True,
+        primary_key=False,
+        unique=False,
+        editable=True,
+        blank=True,
+        null=False,
+        default=None,
+        max_length=150,
+        to=User,
+        on_delete=models.CASCADE,
+    )
+
     id = models.AutoField
     title = models.CharField(
         verbose_name="Наименование",

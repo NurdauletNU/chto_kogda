@@ -17,6 +17,12 @@
           <strong class="mb-1">{{ item.title }}</strong>
           <small>{{ item.price }} тг</small>
         </div>
+
+          автор: {{ item.author.username }}
+
+          <a href="{% url 'update_item' item.id %}" type="button"
+             class="fa-solid fa-screwdriver text-decoration-none text-warning"></a>
+
         <div class="col-10 mb-1 small">{{ item.description }}</div>
       </a>
         <div>

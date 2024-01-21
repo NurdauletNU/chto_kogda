@@ -152,3 +152,32 @@ def room(request, room_slug: str):
     return render(
         request, "RoomPage.html", context={"room": _room, "messages": _messages}
     )
+
+
+def update_item(request, item_id: str):
+    if request.method == "GET":
+        _categories = models.CategoryItem.objects.all()
+        _item = models.Item.objects.get(id=int(item_id))
+        return render(
+            request,
+            "UpdatePage.html",
+            context={"categories": _categories, "item": _item},
+        )
+    elif request.method == "POST":
+        title = str(request.POST["title"])
+        description = str(request.POST["description"])
+        price = int(request.POST["price"])
+        _category = models.CategoryItem.objects.all(slug=str(request.POST["category"]))
+
+        avatar = request.FILES.get["avatar", None]
+        file = request.FILES.get["file", None]
+
+        _item = models.Item.objects.create(
+            title=title,
+            description=description,
+            price=price,
+            category=_category,
+            avatar=avatar,
+            file=file,
+        )
+        return redirect(reverse("category"))

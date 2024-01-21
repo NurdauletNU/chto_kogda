@@ -15,6 +15,7 @@ urlpatterns = [
     path("product/<int:pk>/", views.product_detail, name="product_detail"),
     path("chat", views.chat, name="chat"),
     path("chat/<slug:room_slug>/", views.room, name="room"),
+    path("update/item/<str:item_id>/", views.update_item, name="update_item"),
 ]
 from django_app import views_a
 
