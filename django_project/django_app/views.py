@@ -6,12 +6,39 @@ from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 import re
+
+from django.views import View
+from django.views.generic import TemplateView
+
 from django_app import models
 
 from django.urls import reverse
 
 
 # Create your views here.
+class AboutView(TemplateView):
+    template_name = "about.html"
+
+
+def about(request):
+    return render(request, "about.html")
+
+
+class ProfileView(View):
+    template_name = "profile.html"
+
+    def get(self, request):
+        profile = request.user.profile
+        return render(
+            request, template_name=self.template_name, context={"profile": profile}
+        )
+
+    def post(self, request):
+        avatar = request.FILES.get("avatar", None)
+        if avatar:
+            request.user.profile.avatar = avatar
+            request.user.profile.save()
+        return render(request, template_name=self.template_name)
 
 
 def home(request):

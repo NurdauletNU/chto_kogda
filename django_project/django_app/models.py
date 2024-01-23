@@ -2,6 +2,59 @@ from django.contrib.auth.models import User
 from django.core.validators import FileExtensionValidator
 from django.db import models
 from django.utils import timezone
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(
+        verbose_name="Автор",
+        db_index=True,
+        primary_key=False,
+        editable=True,
+        blank=True,
+        null=True,
+        default=None,
+        max_length=300,
+        to=User,
+        on_delete=models.CASCADE,
+        related_name="profile",
+    )
+    patronymic = models.CharField(
+        verbose_name="Отчество",
+        db_index=False,
+        primary_key=False,
+        unique=False,
+        editable=True,
+        blank=True,
+        null=True,
+        default="",
+        max_length=200,
+    )
+
+    avatar = models.ImageField(
+        verbose_name="Аватар",
+        validators=[FileExtensionValidator(["jpg", "jpeg", "png"])],
+        unique=False,
+        editable=True,
+        blank=True,
+        null=True,
+        default=None,
+        upload_to="avatars/",
+    )
+    objects = models.Manager()
+
+    class Meta:
+        app_label = "auth"
+        ordering = ("-user",)
+
+    def __str__(self):
+        return f"<Profile> {self.user.username} ({self.id})"
+
+
+@receiver(post_save, sender=User)
+def create_signal(sender, instance, created, **kwargs):
+    Profile.objects.get_or_create(user=instance)
 
 
 # Create your models here.
@@ -40,6 +93,90 @@ class CategoryItem(models.Model):
 
     def __str__(self):
         return f"<CategoryItem {self.title} = {self.slug} />"
+
+
+class Action(models.Model):
+    slug = models.SlugField(
+        verbose_name="ссылка",
+        db_index=True,
+        primary_key=False,
+        unique=True,
+        editable=True,
+        blank=True,
+        null=False,
+        default="",
+        max_length=500,
+    )
+
+    description = models.TextField(
+        verbose_name="описание",
+        db_index=False,
+        primary_key=False,
+        unique=False,
+        editable=True,
+        blank=True,
+        null=False,
+        default="",
+    )
+
+    objects = models.Manager()
+
+    class Meta:
+        app_label = "auth"
+        ordering = ("slug",)
+        verbose_name = "Действие"
+        verbose_name_plural = "Действии"
+
+    def __str__(self):
+        return f"<Action {self.slug}({self.id})={self.description[:40]} />"
+
+
+class Composition(models.Model):
+    name = models.CharField(
+        verbose_name="название группы",
+        db_index=True,
+        primary_key=False,
+        unique=True,
+        editable=True,
+        blank=True,
+        null=False,
+        default="",
+        max_length=300,
+    )
+
+    users = models.ManyToManyField(
+        verbose_name="Пользователи состава",
+        db_index=True,
+        primary_key=False,
+        unique=False,
+        editable=True,
+        blank=True,
+        default="",
+        max_length=300,
+        to=User,
+    )
+
+    actions = models.ManyToManyField(
+        verbose_name="Действие группы",
+        db_index=True,
+        primary_key=False,
+        unique=False,
+        editable=True,
+        blank=True,
+        default="",
+        max_length=300,
+        to=Action,
+    )
+    objects = models.Manager()
+
+    class Meta:
+        app_label = "auth"
+        ordering = ("name",)
+        verbose_name = "Группа"
+        verbose_name_plural = "Группы"
+
+    def __str__(self):
+        return f"<Composition {self.name} ({self.id})"
 
 
 class Item(models.Model):

@@ -16,6 +16,8 @@ urlpatterns = [
     path("chat", views.chat, name="chat"),
     path("chat/<slug:room_slug>/", views.room, name="room"),
     path("update/item/<str:item_id>/", views.update_item, name="update_item"),
+    path("about/", views.AboutView.as_view()),
+    path("profile/", views.ProfileView.as_view(), name="profile"),
 ]
 from django_app import views_a
 

@@ -1,0 +1,30 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+profile   99999999
+
+{{request.user.profile}}
+<div>
+    {% if request.user.profile.avatar %}
+        <img src="{% static request.user.profile.avatar.url %}"
+             alt="{{ request.user.username }}" width="800" class="img-fluid img-thumbnail"/>
+    {% endif %}
+</div>
+
+<form method="POST" action="{% url 'profile' %}" enctype="multipart/form-data" class="container mx-5">
+    {% csrf_token %}
+    <div class="col-sm-4">
+        <label for="avatar" class="form-label">Аватар</label>
+        <input name="avatar" type="file" accept=".jpg, .png" class="form-control" id="avatar">
+    </div>
+        <button type="submit" class="btn btn-primary btn-lg w-50">опубликовать </button>
+
+</form>
+
+
+</body>
+</html>
