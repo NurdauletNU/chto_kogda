@@ -144,7 +144,7 @@
     <string>      --</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton">
+  <widget class="QPushButton" name="pushButton_temp_plan_plus">
    <property name="geometry">
     <rect>
      <x>480</x>
@@ -157,7 +157,7 @@
     <string>+</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_2">
+  <widget class="QPushButton" name="pushButton_temp_plan_minus">
    <property name="geometry">
     <rect>
      <x>480</x>

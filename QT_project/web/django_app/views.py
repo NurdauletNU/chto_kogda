@@ -7,7 +7,7 @@ def index(request):
 
 def settings_get(request):
     print(request.headers)
-    if request.headers.get("Authorization", '') != "Token = auth979":
+    if request.headers.get("Authorization", "") != "Token=auth979":
         return JsonResponse(data={'error': 'invalid token'}, status=401)
-    _data = {"temp_plan_high": -11, "temp_plan_down": -37}
+    _data = {"temp_plan_high": -11, "temp_plan_down": -30}
     return JsonResponse(data={"data": _data}, status=200)
