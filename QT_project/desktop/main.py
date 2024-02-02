@@ -259,6 +259,9 @@ FROM params;""",
                     print(error)
                 time.sleep(6)
 
+
+            
+
             # self.ui.label_temp_plan_high.setText(str(self.temp_plan_high))
             # self.ui.label_temp_plan_down.setText(str(self.temp_plan_down))
 
