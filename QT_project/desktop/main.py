@@ -30,8 +30,12 @@ class Ui(QWidget):
         self.ui = uic.loadUi("src/main.ui", self)
         # self.ui.labelData.setText("Searching...")
         self.__params = {}
-        self.ui.pushButton_temp_plan_plus.clicked.connect(self.push_button_temp_plan_plus)
-        self.ui.pushButton_temp_plan_minus.clicked.connect(self.push_button_temp_plan_minus)
+        self.ui.pushButton_temp_plan_plus.clicked.connect(
+            self.push_button_temp_plan_plus
+        )
+        self.ui.pushButton_temp_plan_minus.clicked.connect(
+            self.push_button_temp_plan_minus
+        )
 
         self.show()
         # self.get_local_settings()
@@ -74,7 +78,6 @@ class Ui(QWidget):
         _temp_plan_down = int(_params.get("temp_plan_down", -15)) + 1
         _data = {"temp_plan_high": _temp_plan_high, "temp_plan_down": _temp_plan_down}
 
-
         # todo записываем в базу
         _connection = sqlite3.connect(f"src/database/local_settings.db")
         _cursor = _connection.cursor()
@@ -86,7 +89,7 @@ class Ui(QWidget):
                         """
                         INSERT OR REPLACE INTO params (key, value) VALUES (:key, :value);
                         """,
-                        {'key': k, 'value': v}
+                        {"key": k, "value": v},
                     )
 
         except sqlite3.IntegrityError:
@@ -97,8 +100,6 @@ class Ui(QWidget):
         finally:
             _cursor.close()
             _connection.close()
-
-
 
     def push_button_temp_plan_minus(self):
         print(f"{datetime.datetime.now()} start pushButton_temp_plan_minus ")
@@ -147,7 +148,7 @@ class Ui(QWidget):
                         """
                         INSERT OR REPLACE INTO params (key, value) VALUES (:key, :value);
                         """,
-                        {'key': k, 'value': v}
+                        {"key": k, "value": v},
                     )
 
         except sqlite3.IntegrityError:
@@ -204,7 +205,9 @@ FROM params;""",
     @staticmethod
     def update_settings_from_web():
         _headers = {"Authorization": "Token=auth979"}
-        _response = requests.get("http://127.0.0.1:8000/api/settings/get/", headers=_headers)
+        _response = requests.get(
+            "http://127.0.0.1:8000/api/settings/get/", headers=_headers
+        )
         if _response.status_code not in (200, 201):
             raise Exception(f"Fatal ERROR - {_response.status_code}")
         _data = _response.json().get("data", {})
@@ -230,7 +233,7 @@ FROM params;""",
                         """
                         INSERT OR REPLACE INTO params (key, value) VALUES (:key, :value);
                         """,
-                        {'key': k, 'value': v}
+                        {"key": k, "value": v},
                     )
 
         except sqlite3.IntegrityError:
@@ -254,19 +257,56 @@ FROM params;""",
         def loop_update_settings_from_web():
             while 1:
                 try:
-                    threading.Thread(target=self.update_settings_from_web, args=()).start()
+                    threading.Thread(
+                        target=self.update_settings_from_web, args=()
+                    ).start()
                 except Exception as error:
                     print(error)
                 time.sleep(6)
-
-
-            
 
             # self.ui.label_temp_plan_high.setText(str(self.temp_plan_high))
             # self.ui.label_temp_plan_down.setText(str(self.temp_plan_down))
 
         threading.Thread(target=loop_update_ui, args=()).start()
         threading.Thread(target=loop_update_settings_from_web(), args=()).start()
+
+        from plyer import notification
+
+        def check_weather_conditions(self, temperature):
+            threshold_temperature = 20
+            if temperature < threshold_temperature:
+                return True
+            return False
+
+        def show_notification(self, temperature):
+            notification_title = "Weather Alert!"
+            notification_text = (
+                f"The current temperature is {temperature}°C. It's below the threshold."
+            )
+
+            notification.notify(
+                title=notification_title,
+                message=notification_text,
+                app_name="WeatherApp",
+            )
+
+        def loop_update_weather_info(self):
+            while True:
+                try:
+                    weather_data = self.get_weather_info()
+                    temperature = weather_data["main"]["temp"]
+                    description = weather_data["weather"][0]["description"]
+
+                    self.ui.label_weather.setText(
+                        f"Current Weather: {temperature}°C, {description}"
+                    )
+
+                    if self.check_weather_conditions(temperature):
+                        self.show_notification(temperature)
+
+                except Exception as error:
+                    print(f"Error updating weather info: {error}")
+                time.sleep(60 * 10)
 
 
 if __name__ == "__main__":
